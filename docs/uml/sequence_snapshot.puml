@@ -1,0 +1,18 @@
+@startuml
+actor Utilisateur
+participant "Flask app" as Flask
+participant "vmware_api" as API
+participant "SQLite" as DB
+participant "vCenter" as VC
+
+Utilisateur -> Flask: POST /vmware/snapshot
+Flask -> API: create_snapshot(vm_name, snapshot_name, session_id)
+API -> DB: acquire_vm_lock()
+DB --> API: verrou acquis
+API -> VC: CreateSnapshot_Task()
+VC --> API: etat de la tache
+API -> DB: release_vm_lock()
+API --> Flask: resultat JSON
+Flask --> Utilisateur: 200 OK / 4xx
+
+@enduml

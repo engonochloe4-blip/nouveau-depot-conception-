@@ -1,0 +1,47 @@
+@startuml
+
+class User {
+  +id: int
+  +username: str
+  +password_hash: str
+  +email: str
+  +role: str
+  +is_active: bool
+  +created_at: datetime
+  +last_login: datetime
+  +set_password()
+  +check_password()
+  +to_dict()
+}
+
+class OperationHistory {
+  +id: int
+  +action: str
+  +vm_name: str
+  +status: str
+  +message: str
+  +created_at: datetime
+  +to_dict()
+}
+
+class VMLock {
+  +id: int
+  +vm_name: str
+  +locked_by: str
+  +operation: str
+  +locked_at: datetime
+  +expires_at: datetime
+  +is_expired()
+  +to_dict()
+}
+
+class "Flask app" as App
+class "vmware_api" as API
+
+App --> User
+App --> OperationHistory
+App --> VMLock
+API --> VMLock
+API --> App : uses context
+
+@enduml

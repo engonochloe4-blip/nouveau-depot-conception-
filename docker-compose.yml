@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      SIMULATION_MODE: ${SIMULATION_MODE:-1}
+      VCENTER_HOST: ${VCENTER_HOST:-}
+      VCENTER_USERNAME: ${VCENTER_USERNAME:-}
+      VCENTER_PASSWORD: ${VCENTER_PASSWORD:-}
+      VCENTER_PORT: ${VCENTER_PORT:-443}
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      PORT: ${PORT:-5000}
+    volumes:
+      - ./backend/instance:/app/backend/instance
